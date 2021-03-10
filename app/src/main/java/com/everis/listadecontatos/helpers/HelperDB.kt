@@ -78,7 +78,14 @@ class HelperDB(
         val sql = "DELETE FROM $TABLE_NAME WHERE $COLUMNS_ID = ?"
         val arg = arrayOf("$id")
         db.execSQL(sql, arg)
+        db.close()
+    }
 
+    fun updateContato(contato: ContatosVO) {
+        val db = writableDatabase ?: return
+        val sql = "UPDATE $TABLE_NAME SET $COLUMNS_NOME = ?, $COLUMNS_TELEFONE = ? WHERE $COLUMNS_ID = ?"
+        val arg = arrayOf(contato.nome, contato.telefone, contato.id)
+        db.execSQL(sql, arg)
         db.close()
     }
 }

@@ -38,10 +38,15 @@ class HelperDB(
         }
     }
 
-    fun buscarContatos(busca: String): List<ContatosVO> {
+    fun buscarContatos(busca: String, isBuscaPorId: Boolean = false): List<ContatosVO> {
         val db = readableDatabase ?: return mutableListOf()
         var lista = mutableListOf<ContatosVO>()
-        var where = "$COLUMNS_NOME LIKE '%$busca%'"
+        var where: String? = null
+        if(isBuscaPorId) {
+            where = "$COLUMNS_ID = '$busca'"
+        } else {
+            where = "$COLUMNS_NOME LIKE '%$busca%'"
+        }
         var cursor = db.query(TABLE_NAME, null, where, null, null, null, null)
         if(cursor == null) {
             db.close()

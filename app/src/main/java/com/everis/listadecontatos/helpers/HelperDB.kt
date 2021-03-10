@@ -66,10 +66,9 @@ class HelperDB(
 
     fun salvarContato(contato: ContatosVO) {
         val db = writableDatabase ?: return
-        var content = ContentValues()
-        content.put(COLUMNS_NOME, contato.nome)
-        content.put(COLUMNS_TELEFONE, contato.telefone)
-        db.insert(TABLE_NAME, null, content)
+        val sql = "INSERT INTO $TABLE_NAME ($COLUMNS_NOME, $COLUMNS_TELEFONE) VALUES (?, ?)"
+        val arg = arrayOf(contato.nome, contato.telefone)
+        db.execSQL(sql, arg)
         db.close()
     }
 
